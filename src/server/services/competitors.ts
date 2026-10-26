@@ -178,6 +178,7 @@ export interface PageRow {
   lastSuccessAt: Date | null;
   nextCheckAt: Date;
   snapshotCount: number;
+  successCount: number;
   checkIntervalHours: number;
   activeJob: string | null;
 }
@@ -190,7 +191,7 @@ export async function getCompetitorProfile(tx: Tx, ctx: WorkspaceCtx, competitor
   if (!competitor) throw new AppError("Competitor not found", "not_found");
   const pages = await tx<PageRow[]>`
     select p.id, p.url, p.page_type, p.label, p.render_mode, p.status, p.health, p.health_detail, p.last_attempt_at, p.last_success_at,
-      p.next_check_at, p.snapshot_count, p.check_interval_hours,
+      p.next_check_at, p.snapshot_count, p.success_count, p.check_interval_hours,
       (select j.status::text from monitoring_jobs j where j.page_id = p.id and j.status in ('queued', 'running') limit 1) as active_job
     from monitored_pages p where p.competitor_id = ${competitorId} and p.status <> 'removed' order by p.page_type, p.url`;
   const changes = await tx<{ id: string; category: string; severity: string; summary: string; detectedAt: Date; pageType: string; confidence: number; reviewStatus: string; needsReview: boolean }[]>`

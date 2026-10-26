@@ -71,6 +71,7 @@ async function markSuccess(page: PageRow, fields: { snapshotId?: string; etag?: 
       next_check_at = now() + make_interval(hours => ${page.checkIntervalHours}),
       last_snapshot_id = coalesce(${fields.snapshotId ?? null}::uuid, last_snapshot_id),
       snapshot_count = snapshot_count + ${fields.snapshotId ? 1 : 0},
+      success_count = success_count + 1,
       http_etag = coalesce(${fields.etag ?? null}, http_etag),
       http_last_modified = coalesce(${fields.lastModified ?? null}, http_last_modified)
     where id = ${page.id}`;

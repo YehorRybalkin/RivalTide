@@ -65,10 +65,10 @@ export async function createDemoAccount(): Promise<{ userId: string; workspaceId
       for (const v of page.versions) {
         const content = extractContent(v.html, url);
         const fetchedAt = at(v.daysAgo);
-        const [attempt] = await db<{ id: string }[]>`
+        const [attempt]: { id: string }[] = await db<{ id: string }[]>`
           insert into monitoring_attempts (organization_id, page_id, outcome, http_status, final_url, duration_ms, bytes, created_at)
           values (${orgId}, ${p!.id}, ${prev ? "changed" : "baseline"}, 200, ${url}, 420, ${v.html.length}, ${fetchedAt}) returning id`;
-        const [snap] = await db<{ id: string }[]>`
+        const [snap]: { id: string }[] = await db<{ id: string }[]>`
           insert into snapshots (organization_id, page_id, attempt_id, content_hash, content, text_length, final_url, http_status, pinned, created_at)
           values (${orgId}, ${p!.id}, ${attempt!.id}, ${contentHash(content)}, ${db.json(content as never)}, ${visibleTextLength(content)}, ${url}, 200, true, ${fetchedAt})
           returning id`;
@@ -97,7 +97,7 @@ export async function createDemoAccount(): Promise<{ userId: string; workspaceId
         prev = { id: snap!.id, content };
         lastSnapId = snap!.id;
       }
-      await db`update monitored_pages set last_snapshot_id = ${lastSnapId}, snapshot_count = ${page.versions.length} where id = ${p!.id}`;
+      await db`update monitored_pages set last_snapshot_id = ${lastSnapId}, snapshot_count = ${page.versions.length}, success_count = ${page.versions.length + 3} where id = ${p!.id}`;
       // A few recent "unchanged" checks so monitoring history looks realistic.
       for (let d = 1; d <= 3; d++) {
         await db`insert into monitoring_attempts (organization_id, page_id, outcome, http_status, final_url, duration_ms, created_at)

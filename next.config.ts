@@ -24,6 +24,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  agentRules: false,
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   serverExternalPackages: ["postgres", "@react-pdf/renderer", "playwright", "cheerio", "undici"],
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

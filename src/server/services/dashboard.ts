@@ -93,7 +93,7 @@ export async function getDashboard(tx: Tx, ctx: WorkspaceCtx): Promise<Dashboard
 
   const [meta] = await tx<{ lastCheckAt: Date | null; firstBaselinePending: number }[]>`
     select max(last_attempt_at) as last_check_at,
-      count(*) filter (where snapshot_count < 2 and status = 'active')::int as first_baseline_pending
+      count(*) filter (where success_count < 2 and status = 'active')::int as first_baseline_pending
     from monitored_pages where workspace_id = ${ws} and status <> 'removed'`;
 
   return {

@@ -239,7 +239,7 @@ export function comparePrices(before: PricePoint[], after: PricePoint[]): { chan
 
 export function formatMoney(amount: number, currency: string): string {
   try {
-    return new Intl.NumberFormat("en-GB", { style: "currency", currency, maximumFractionDigits: amount % 1 === 0 ? 0 : 2 }).format(amount);
+    return new Intl.NumberFormat("en-GB", { style: "currency", currency, currencyDisplay: "narrowSymbol", maximumFractionDigits: amount % 1 === 0 ? 0 : 2 }).format(amount);
   } catch {
     return `${currency} ${amount}`;
   }

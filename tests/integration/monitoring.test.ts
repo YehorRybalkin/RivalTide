@@ -86,7 +86,7 @@ describe("monitoring pipeline", () => {
     expect((await check())?.outcome).toBe("changed");
     site.routes.set("/", { body: html("Home", "<h1>Hello</h1><p>Banner B is new</p>") });
     expect((await check())?.outcome).toBe("unchanged"); // same fingerprint as the first change
-    const [{ n }] = await systemDb()<{ n: number }[]>`select count(*)::int as n from detected_changes where organization_id = ${t.orgId}`;
+    const [{ n } = { n: -1 }] = await systemDb()<{ n: number }[]>`select count(*)::int as n from detected_changes where organization_id = ${t.orgId}`;
     expect(n).toBe(2);
   });
 

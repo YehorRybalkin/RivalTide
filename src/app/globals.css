@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Semantic design tokens. Components use these names only. */
+:root {
+  --background: #f8fafc;
+  --foreground: #111827;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --muted: #64748b;
+  --subtle: #94a3b8;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --ring: #10b981;
+  --primary: #10b981;
+  --primary-hover: #059669;
+  --primary-foreground: #ffffff;
+  --primary-soft: #ecfdf5;
+  --primary-soft-foreground: #047857;
+  --accent: #2563eb;
+  --accent-soft: #eff6ff;
+  --accent-soft-foreground: #1d4ed8;
+  --warning: #f59e0b;
+  --warning-soft: #fffbeb;
+  --warning-soft-foreground: #b45309;
+  --danger: #ef4444;
+  --danger-soft: #fef2f2;
+  --danger-soft-foreground: #b91c1c;
+  --sidebar: #0b1220;
+  --sidebar-foreground: #cbd5e1;
+  --sidebar-muted: #64748b;
+  --sidebar-active: #172033;
+  --sidebar-border: #1e293b;
+  --chart-1: #10b981;
+  --chart-2: #2563eb;
+  --chart-3: #8b5cf6;
+  --chart-4: #f59e0b;
+  --chart-5: #ec4899;
+  --chart-6: #64748b;
+  --shadow-color: 15 23 42;
+  --diff-add: #ecfdf5;
+  --diff-add-border: #a7f3d0;
+  --diff-del: #fef2f2;
+  --diff-del-border: #fecaca;
+}
+
+.dark {
+  --background: #0a0f1a;
+  --foreground: #e5e7eb;
+  --surface: #0f1726;
+  --surface-2: #151f31;
+  --muted: #94a3b8;
+  --subtle: #64748b;
+  --border: #1e293b;
+  --border-strong: #334155;
+  --primary-soft: rgba(16, 185, 129, 0.12);
+  --primary-soft-foreground: #34d399;
+  --accent-soft: rgba(37, 99, 235, 0.15);
+  --accent-soft-foreground: #93c5fd;
+  --warning-soft: rgba(245, 158, 11, 0.12);
+  --warning-soft-foreground: #fbbf24;
+  --danger-soft: rgba(239, 68, 68, 0.12);
+  --danger-soft-foreground: #fca5a5;
+  --sidebar: #070b14;
+  --sidebar-active: #131c2e;
+  --sidebar-border: #151e2e;
+  --shadow-color: 0 0 0;
+  --diff-add: rgba(16, 185, 129, 0.1);
+  --diff-add-border: rgba(16, 185, 129, 0.35);
+  --diff-del: rgba(239, 68, 68, 0.1);
+  --diff-del-border: rgba(239, 68, 68, 0.35);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-soft-foreground: var(--primary-soft-foreground);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-soft-foreground: var(--accent-soft-foreground);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-soft-foreground: var(--warning-soft-foreground);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-soft-foreground: var(--danger-soft-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-active: var(--sidebar-active);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-diff-add: var(--diff-add);
+  --color-diff-add-border: var(--diff-add-border);
+  --color-diff-del: var(--diff-del);
+  --color-diff-del-border: var(--diff-del-border);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --shadow-card: 0 1px 2px rgb(var(--shadow-color) / 0.04), 0 1px 3px rgb(var(--shadow-color) / 0.06);
+  --shadow-pop: 0 10px 30px -10px rgb(var(--shadow-color) / 0.25);
+}
+
+@layer base {
+  * { border-color: var(--border); }
+  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  body { background: var(--background); color: var(--foreground); font-feature-settings: "cv11", "ss01"; }
+  :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+  ::selection { background: rgba(16, 185, 129, 0.25); }
+}
+
+@layer utilities {
+  .tabular { font-variant-numeric: tabular-nums; }
+  .skeleton { background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 37%, var(--surface-2) 63%); background-size: 400% 100%; animation: shimmer 1.4s ease infinite; }
+  @keyframes shimmer { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+  .fade-in { animation: fadeIn 0.25s ease-out both; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .fade-in, .skeleton { animation: none; } }
+}

@@ -100,8 +100,8 @@ export async function generateReport(tx: Tx, ctx: WorkspaceCtx, raw: z.input<typ
       ${input.competitorId ? tx`and id = ${input.competitorId}` : tx``} order by name`;
   if (input.competitorId && competitors.length === 0) throw new AppError("Competitor not found", "not_found");
 
-  const pages = await tx<{ competitorId: string; url: string; pageType: string; status: string; health: string; snapshotCount: number }[]>`
-    select competitor_id, url, page_type, status, health, snapshot_count from monitored_pages
+  const pages = await tx<{ competitorId: string; url: string; pageType: string; status: string; health: string; successCount: number }[]>`
+    select competitor_id, url, page_type, status, health, success_count from monitored_pages
     where workspace_id = ${ctx.workspaceId} and status <> 'removed' and competitor_id in ${tx(competitors.length ? competitors.map((c) => c.id) : ["00000000-0000-0000-0000-000000000000"])}`;
 
   const rows = await tx<{ id: string; competitorName: string; category: string; severity: string; confidence: number; summary: string; sourceUrl: string; detectedAt: Date; previousSnapshotId: string; newSnapshotId: string; needsReview: boolean; evidence: ChangeEvidence; feedback: string | null }[]>`
@@ -147,7 +147,7 @@ export async function generateReport(tx: Tx, ctx: WorkspaceCtx, raw: z.input<typ
   const activePages = pages.filter((p) => p.status === "active");
   const coverageNotes: string[] = [];
   const problemPages = activePages.filter((p) => ["failed", "restricted", "delayed"].includes(p.health)).length;
-  const noComparison = activePages.filter((p) => p.snapshotCount < 2).length;
+  const noComparison = activePages.filter((p) => p.successCount < 2).length;
   if (problemPages) coverageNotes.push(`${problemPages} monitored page(s) had monitoring problems during the period; changes on those pages may be missing.`);
   if (noComparison) coverageNotes.push(`${noComparison} page(s) do not yet have two snapshots, so no changes can be reported for them.`);
   if (competitors.length && activePages.length === 0) coverageNotes.push("No pages are actively monitored for the selected competitors.");

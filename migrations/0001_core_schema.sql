@@ -155,6 +155,8 @@ create table monitored_pages (
   last_success_at timestamptz,
   last_snapshot_id uuid,
   snapshot_count int not null default 0,
+  -- Successful checks (baseline included). Comparisons are possible once this reaches 2.
+  success_count int not null default 0,
   consecutive_failures int not null default 0,
   http_etag text,
   http_last_modified text,
