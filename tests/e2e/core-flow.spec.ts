@@ -112,7 +112,7 @@ test.describe.serial("core monitoring workflow", () => {
     expect(changes?.status()).toBe(404);
   });
 
-  test("monitoring blocks private and robots-disallowed targets", async ({ page }) => {
+  test("onboarding rejects private and cloud-metadata addresses", async ({ page }) => {
     await signUp(page, `ssrf-${unique}@example.com`);
     await page.getByLabel("Organization name").fill("Probe Co");
     await page.getByLabel("First client workspace").fill("WS");

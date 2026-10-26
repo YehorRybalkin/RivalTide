@@ -274,7 +274,7 @@ function ProductPreview() {
           </div>
           <div className="p-4 sm:p-6">
             <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-              {[["Competitors", "4"], ["Active pages", "10"], ["Important this week", "4"], ["Pricing changes (30d)", "4"]].map(([l, v]) => (
+              {[["Competitors", "4"], ["Active pages", "11"], ["Important this week", "4"], ["Pricing changes (30d)", "4"]].map(([l, v]) => (
                 <div key={l} className="rounded-lg border border-border p-3 text-left"><div className="text-[11.5px] text-muted">{l}</div><div className="tabular mt-1 text-xl font-semibold">{v}</div></div>
               ))}
             </div>

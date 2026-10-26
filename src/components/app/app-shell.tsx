@@ -134,12 +134,12 @@ export function AppShell({ user, workspace, workspaces, unread, plan, children }
         </div>
       ) : null}
       {workspace.isDemo ? (
-        <div className="sticky top-0 z-30 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 bg-warning px-4 py-1.5 text-center text-[12.5px] font-medium text-black">
+        <div className="relative z-30 flex flex-wrap sm:sticky sm:top-0 items-center justify-center gap-x-3 gap-y-1 bg-warning px-4 py-1.5 text-center text-[12.5px] font-medium text-black">
           <span>Demo workspace — all companies, prices and changes are fictional. Nothing here is live competitor data.</span>
           <Link href="/signup" className="underline underline-offset-2">Create a real account</Link>
         </div>
       ) : null}
-      <header className={cn("sticky z-20 flex h-14 items-center gap-3 border-b border-border bg-background/85 px-4 backdrop-blur sm:px-6", workspace.isDemo ? "top-[30px]" : "top-0")}>
+      <header className={cn("sticky z-20 flex h-14 items-center gap-3 border-b border-border bg-background/85 px-4 backdrop-blur sm:px-6", workspace.isDemo ? "top-0 sm:top-[30px]" : "top-0")}>
         <button className="rounded-md p-1.5 text-muted hover:bg-surface-2 lg:hidden" onClick={() => setMobileOpen(true)} aria-label="Open navigation"><Menu className="size-5" /></button>
         <form action={`${base}/search`} role="search" className="relative max-w-md flex-1">
           <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-subtle" aria-hidden />

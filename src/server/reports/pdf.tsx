@@ -13,7 +13,7 @@ function makeStyles(color: string) {
     header: { position: "absolute", top: 22, left: 48, right: 48, flexDirection: "row", justifyContent: "space-between", fontSize: 7.5, color: "#64748B" },
     footer: { position: "absolute", bottom: 22, left: 48, right: 48, flexDirection: "row", justifyContent: "space-between", fontSize: 7.5, color: "#64748B" },
     brand: { fontSize: 8, color, fontFamily: "Helvetica-Bold", letterSpacing: 1.5, textTransform: "uppercase" },
-    title: { fontSize: 20, fontFamily: "Helvetica-Bold", marginTop: 6 },
+    title: { fontSize: 20, fontFamily: "Helvetica-Bold", marginTop: 6, lineHeight: 1.25, marginBottom: 4 },
     meta: { color: "#64748B", marginTop: 4 },
     rule: { borderBottomWidth: 2, borderBottomColor: color, marginTop: 14, marginBottom: 14 },
     h2: { fontSize: 12.5, fontFamily: "Helvetica-Bold", marginTop: 16, marginBottom: 6 },
@@ -38,7 +38,7 @@ function Changes({ title, items, s }: { title: string; items: ReportChange[]; s:
   if (!items.length) return null;
   return (
     <View>
-      <Text style={s.h2}>{title}</Text>
+      <Text style={s.h2} minPresenceAhead={60}>{title}</Text>
       {items.map((c) => (
         <View key={c.id} style={s.card} wrap={false}>
           <Text style={s.small}>{safe(c.competitor)} · {CAT[c.category] ?? c.category} · {c.severity} severity · {Math.round(c.confidence * 100)}% confidence · {d(c.detectedAt)}{c.needsReview ? " · NEEDS REVIEW" : ""}</Text>
@@ -67,7 +67,7 @@ function ReportPdf({ r }: { r: ReportContent }) {
         <Text style={s.title}>{safe(r.title)}</Text>
         <Text style={s.meta}>{r.workspace.clientName ? `Prepared for ${safe(r.workspace.clientName)} · ` : ""}Period {d(r.period.start)} – {d(r.period.end)} · Generated {d(r.generatedAt)}</Text>
         <View style={s.rule} />
-        <Text style={s.h2}>Executive summary</Text>
+        <Text style={s.h2} minPresenceAhead={60}>Executive summary</Text>
         <Bullets items={r.executiveSummary} s={s} />
         <View style={s.box}>
           <Text style={s.bold}>Monitoring coverage</Text>
@@ -76,7 +76,7 @@ function ReportPdf({ r }: { r: ReportContent }) {
         </View>
         {r.type !== "weekly_brief" ? (
           <View>
-            <Text style={s.h2}>{r.type === "competitor_deep_dive" ? "Competitor overview" : "Competitor activity"}</Text>
+            <Text style={s.h2} minPresenceAhead={60}>{r.type === "competitor_deep_dive" ? "Competitor overview" : "Competitor activity"}</Text>
             {r.competitorOverview.map((c) => (
               <View key={c.name} style={s.card} wrap={false}>
                 <Text style={s.bold}>{safe(c.name)} <Text style={s.small}>{c.website}</Text></Text>
@@ -93,7 +93,7 @@ function ReportPdf({ r }: { r: ReportContent }) {
         {r.type !== "weekly_brief" ? <Changes title="Other changes" items={r.otherChanges} s={s} /> : null}
         {r.insights.length ? (
           <View>
-            <Text style={s.h2}>Strategic interpretation</Text>
+            <Text style={s.h2} minPresenceAhead={60}>Strategic interpretation</Text>
             <Text style={s.small}>Interpretations are hypotheses, not verified facts.</Text>
             {r.insights.map((i) => (
               <View key={i.id} style={[s.card, { marginTop: 6 }]} wrap={false}>
@@ -110,13 +110,13 @@ function ReportPdf({ r }: { r: ReportContent }) {
         ) : null}
         {r.nextActions.length ? (
           <View>
-            <Text style={s.h2}>Suggested next actions</Text>
+            <Text style={s.h2} minPresenceAhead={60}>Suggested next actions</Text>
             <Bullets items={r.nextActions} s={s} />
             <Text style={s.small}>These are options to evaluate, not recommendations guaranteed to succeed.</Text>
           </View>
         ) : null}
         <View break={r.appendix.length > 8}>
-          <Text style={s.h2}>Source appendix</Text>
+          <Text style={s.h2} minPresenceAhead={60}>Source appendix</Text>
           {r.appendix.length === 0 ? <Text style={s.small}>No changes in this period.</Text> : r.appendix.map((a) => (
             <View key={a.id} style={s.row} wrap={false}>
               <Text style={{ width: 90 }}>{safe(a.competitor)}</Text>

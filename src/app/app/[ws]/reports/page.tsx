@@ -35,8 +35,8 @@ export default async function ReportsPage({ params }: { params: Promise<{ ws: st
                 <tbody>
                   {reports.map((r) => (
                     <TR key={r.id}>
-                      <TD><Link href={`/app/${ws}/reports/${r.id}`} className="font-medium hover:underline">{r.title}</Link>{r.creator ? <div className="text-xs text-muted">by {r.creator}</div> : null}</TD>
-                      <TD className="text-muted">{TYPE_LABEL[r.type]}</TD>
+                      <TD className="min-w-[240px]"><Link href={`/app/${ws}/reports/${r.id}`} className="font-medium hover:underline">{r.title}</Link>{r.creator ? <div className="text-xs text-muted">by {r.creator}</div> : null}</TD>
+                      <TD className="whitespace-nowrap text-muted">{TYPE_LABEL[r.type]}</TD>
                       <TD className="whitespace-nowrap text-muted">{formatDate(r.periodStart)} – {formatDate(r.periodEnd)}</TD>
                       <TD className="tabular">v{r.version}</TD>
                       <TD><Badge tone={r.status === "final" ? "green" : "slate"} className="capitalize">{r.status}</Badge></TD>
